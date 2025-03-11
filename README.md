@@ -96,6 +96,20 @@ inputs:
   - Example: true
 
 - zola.services.package : The zola package to use
-
   - Type: package
+
+## Sample Configuration 
+
+You can add custom nixpkgs paths in the yaml configuration file. To add the nixpkgs unstable path in devenv.yaml:
+
+```yaml
+inputs:
+  devenv-extra-modules:
+    url: github:owejow/devenv-extra-modules
+    flake: false
+  nixpkgs:
+    url: github:NixOS/nixpkgs/nixpkgs-unstable
+```
+
+
   - Default: uses pkgs.zola from nixpkgs
