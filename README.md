@@ -97,6 +97,7 @@ inputs:
 
 - zola.services.package : The zola package to use
   - Type: package
+  - Default: uses pkgs.zola from nixpkgs
 
 ## Sample Configuration 
 
@@ -111,5 +112,25 @@ inputs:
     url: github:NixOS/nixpkgs/nixpkgs-unstable
 ```
 
+You can utilize the unstable packages to specify an exact custom version of elixir and erlang for your project like so:
 
-  - Default: uses pkgs.zola from nixpkgs
+```nix
+{ pkgs, inputs, ... }:
+let
+
+  pkgs-unstable = import inputs.nixpkgs { inherit (pkgs) system; };
+in {
+  imports = [ inputs.devenv-extra-modules.outPath ];
+  name = "phoenix";
+  services.phoenix.enable = true;
+  languages.elixir.package = pkgs-unstable.beam.packages.erlang_27.elixir_1_18;
+  packages = [ pkgs.libgcc pkgs.gnumake ];
+  infoSections = {
+    "Start Services" = [ "To start services simply run: devenv up" ];
+  };
+}
+
+```
+
+
+  
